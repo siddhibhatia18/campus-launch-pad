@@ -1,0 +1,33 @@
+{
+  "name": "campus-launch-pad-server",
+  "version": "1.0.0",
+  "description": "Backend API for Campus Launch Pad opportunity discovery platform",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "campus",
+    "opportunities",
+    "students",
+    "express",
+    "nodejs"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^10.4.3",
+    "mongoose": "^8.9.5",
+    "multer": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
