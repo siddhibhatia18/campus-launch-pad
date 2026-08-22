@@ -27,3 +27,4 @@ savedOpportunitySchema.index({ student: 1, opportunity: 1 }, { unique: true });
 
 const SavedOpportunity = mongoose.model('SavedOpportunity', savedOpportunitySchema);
 export default SavedOpportunity;
+

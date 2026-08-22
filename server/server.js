@@ -30,16 +30,23 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
 
-// Middleware
 app.use(cors({
-  origin: [
-    'https://campus-launch-pad.vercel.app',
-    'http://localhost:5173'
-  ],
+  origin: (origin, callback) => {
+    const allowed = [
+      'https://campus-launch-pad.vercel.app',
+      'http://localhost:5173'
+    ];
+    const isVercelPreview = origin && /^https:\/\/campus-launch-pad-.*\.vercel\.app$/.test(origin);
+
+    if (!origin || allowed.includes(origin) || isVercelPreview) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   credentials: true
 }));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

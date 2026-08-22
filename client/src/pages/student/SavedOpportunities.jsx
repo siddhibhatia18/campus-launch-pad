@@ -16,7 +16,9 @@ export default function SavedOpportunities() {
       const data = await fetchSavedOpportunities();
       setSavedList(data.opportunities || []);
     } catch (err) {
-      console.error('Error loading saved opportunities:', err);
+      console.error('Error load
+        
+        ing saved opportunities: ', err);
     } finally {
       setLoading(false);
     }
