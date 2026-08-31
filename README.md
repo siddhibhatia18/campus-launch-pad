@@ -1,16 +1,31 @@
 # Campus Launch Pad 🚀
 
-Campus Launch Pad is a full-stack student opportunity discovery platform. It enables students to build profiles, showcase their skills and projects, and discover personalized, explainable recommendations for internships, hackathons, jobs, workshops, and competitions.
+**Live demo:** [campus-launch-pad.vercel.app](https://campus-launch-pad.vercel.app)
+
+Campus Launch Pad is a full-stack platform that helps students discover personalized opportunities (internships, hackathons, jobs, workshops, competitions) and find teammates to build projects with. Students build a profile with their skills and interests, get explainable, scored recommendations instead of a generic list, and can post project ideas, invite other students, and track applications — all in one place.
+
+
+
+## ✨ Key Features
+
+- **Authentication** — secure registration/login with hashed passwords (bcrypt) and JWT-protected routes
+- **Student profiles** — skills (with proficiency level), interests, domains, college/course/year, profile photo upload
+- **Explainable recommendation engine** — a custom weighted scoring algorithm (skills 50%, domain 30%, interests 20%) that shows *why* an opportunity was recommended, not just a match %
+- **Opportunity discovery** — search and filter by keyword, type, domain, and mode (remote/in-person)
+- **Save & apply** — bookmark opportunities and track application status
+- **Project & team formation** — post a project idea, invite students to join, manage incoming/outgoing invitations
+- **Admin dashboard** — manage opportunities and view registered students
+- **Role-based access control** — student vs. admin permissions enforced on the backend, not just hidden in the UI
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: React (Vite), JavaScript, Plain CSS, React Router DOM, Axios
-- **Backend**: Node.js, Express.js, CORS, dotenv
-- **Database**: MongoDB Atlas with Mongoose (Phase 4+)
-- **Authentication**: bcryptjs & JSON Web Tokens (JWT) (Phase 5+)
-- **Deployment Targets**: Frontend on Vercel, Backend on Render, Database on MongoDB Atlas
+- **Frontend**: React (Vite), React Router, Axios, Context API for auth state
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB Atlas with Mongoose
+- **Auth**: bcryptjs (password hashing) + JSON Web Tokens
+- **Deployment**: Frontend on Vercel, backend on Render, database on MongoDB Atlas
 
 ---
 
@@ -22,30 +37,23 @@ campus-launch-pad/
 │   ├── src/
 │   │   ├── assets/             # Static media assets & icons
 │   │   ├── components/         # Reusable UI components
-│   │   ├── context/            # React Context providers (Auth, etc.)
-│   │   ├── pages/              # Application views & pages
-│   │   ├── services/           # Axios HTTP client & API services
-│   │   ├── styles/             # Modular plain CSS stylesheets
-│   │   ├── App.jsx             # Root application component
-│   │   └── main.jsx            # Entry point
-│   ├── .env                    # Frontend environment variables
-│   ├── .env.example            # Example frontend environment variables
-│   ├── index.html              # HTML shell
-│   ├── package.json            # Frontend dependencies & scripts
-│   └── vite.config.js          # Vite configuration
+│   │   ├── context/            # Auth context provider
+│   │   ├── pages/               # Application views (student/, admin/)
+│   │   ├── services/            # Axios API client
+│   │   ├── styles/              # Modular CSS
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   └── vite.config.js
 ├── server/                     # Node.js + Express Backend
-│   ├── config/                 # DB connection & environment configurations
-│   ├── controllers/            # Request handlers
-│   ├── middleware/             # Auth & error handling middlewares
-│   ├── models/                 # Mongoose schemas & models
-│   ├── routes/                 # Express API routes
-│   ├── utils/                  # Helper utilities (scoring engine, etc.)
-│   ├── .env                    # Backend environment variables
-│   ├── .env.example            # Example backend environment variables
-│   ├── package.json            # Backend dependencies & scripts
-│   └── server.js               # Express application entry point
-├── .gitignore                  # Git ignore rules for dependencies & secrets
-└── README.md                   # Project documentation
+│   ├── config/                 # DB connection
+│   ├── controllers/            # Request handlers (auth, profile, opportunities,
+│   │                           #   applications, recommendations, admin, projects, invitations)
+│   ├── middleware/              # JWT auth + role checks, file upload
+│   ├── models/                  # Mongoose schemas
+│   ├── routes/
+│   ├── utils/                   # matchingEngine.js — the recommendation scoring logic
+│   └── server.js
+└── README.md
 ```
 
 ---
@@ -55,72 +63,62 @@ campus-launch-pad/
 ### Prerequisites
 - Node.js (v18+)
 - npm (v9+)
+- A MongoDB Atlas connection string
 
 ### 1. Backend Setup
 ```bash
-# Navigate to the server folder
 cd server
-
-# Install dependencies
 npm install
-
-# Setup environment variables
-cp .env.example .env
-
-# Run the development server
+cp .env.example .env   # add your MONGO_URI and JWT_SECRET
 npm run dev
-# Server will run on: http://localhost:5000
+# Server runs on http://localhost:5000
 ```
 
 ### 2. Frontend Setup
 ```bash
-# In a new terminal, navigate to the client folder
 cd client
-
-# Install dependencies
 npm install
-
-# Setup environment variables
 cp .env.example .env
-
-# Run the development server
 npm run dev
-# Client will run on: http://localhost:5173
+# Client runs on http://localhost:5173
 ```
 
 ---
 
 ## 📡 API Health Check
 
-The backend exposes a health check endpoint to verify server status:
-- **URL**: `http://localhost:5000/api/health`
-- **Method**: `GET`
-- **Response**:
-```json
-{
-  "status": "ok",
-  "message": "Campus Launch Pad API is running",
-  "timestamp": "2026-08-20T17:20:00.000Z",
-  "environment": "development"
-}
 ```
+GET /api/health
+```
+Returns server status, database connection state, environment, and uptime.
 
 ---
 
-## 🗺️ Implementation Roadmap
-- [x] **Phase 1: Project Setup** (Independent client/server, health API, CORS, environment variables)
-- [ ] **Phase 2: Basic Frontend Structure & Routing**
-- [ ] **Phase 3: Backend Setup & Extended Health API**
-- [ ] **Phase 4: MongoDB Connection & Schemas**
-- [ ] **Phase 5: Registration & Login**
-- [ ] **Phase 6: JWT Authentication & Protected Routes**
-- [ ] **Phase 7: Student Profile Management**
-- [ ] **Phase 8: Opportunity CRUD**
-- [ ] **Phase 9: Search & Filtering**
-- [ ] **Phase 10: Save Opportunities**
-- [ ] **Phase 11: Application Tracking**
-- [ ] **Phase 12: Recommendation Engine**
-- [ ] **Phase 13: Admin Features**
-- [ ] **Phase 14: Final Testing**
-- [ ] **Phase 15: GitHub Documentation**
-- [ ] **Phase 16: Deployment**
+## 🗺️ Project Status
+
+Core product is built and deployed:
+
+- [x] Client/server setup, health checks, CORS, env config
+- [x] Frontend routing & page structure
+- [x] MongoDB schemas (Users, Profiles, Opportunities, Applications, Projects, Invitations)
+- [x] Registration & login
+- [x] JWT authentication & protected/role-based routes
+- [x] Student profile management (skills, interests, photo upload)
+- [x] Opportunity CRUD (admin-managed)
+- [x] Search & filtering
+- [x] Save opportunities
+- [x] Application tracking
+- [x] Explainable recommendation engine
+- [x] Admin dashboard
+- [x] Project posting & team invitations
+- [x] Deployment (Vercel + Render + MongoDB Atlas)
+- [ ] Automated tests
+- [ ] Real-time notifications for new matches/invitations
+
+---
+
+## 🧭 Why I built this
+I built Campus Launch Pad after noticing how difficult it can be for students to discover relevant opportunities, showcase their skills, and find the right teammates for hackathons and projects. The goal was to create one platform where students can discover opportunities, connect with like-minded peers, share ideas, and build projects together.
+
+
+Built by Siddhi Bhatia. Feedback and contributions welcome — feel free to open an issue.
